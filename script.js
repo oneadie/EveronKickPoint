@@ -1,7 +1,8 @@
 let interval;
+let countdownInterval;
 const seen = new Set();
 let participants = [];
-let settings = { streamer: '', token: '', mode: 'direct', speed: 5, rotation: 0, winner: null };
+let settings = { streamer: '', token: '', mode: 'direct', speed: 5, rotation: 0, winner: null, timer: 0 };
 let rotation = 0;
 let spinning = false;
 
@@ -44,6 +45,7 @@ icon.onload = drawWheel;
 document.getElementById('settings-btn').addEventListener('click', () => {
     document.getElementById('streamer').value = settings.streamer;
     document.getElementById('token').value = settings.token;
+    document.getElementById('timer-minutes').value = settings.timer || '';
     document.getElementById('settings-modal').style.display = 'block';
 });
 
@@ -65,6 +67,7 @@ document.getElementById('close-settings').addEventListener('click', () => {
 document.getElementById('save-settings').addEventListener('click', () => {
     settings.streamer = document.getElementById('streamer').value.trim();
     settings.token = document.getElementById('token').value.trim();
+    settings.timer = parseInt(document.getElementById('timer-minutes').value) || 0;
     localStorage.setItem('raffleSettings', JSON.stringify(settings));
     document.getElementById('settings-modal').style.display = 'none';
     if (settings.streamer && settings.token) {
@@ -75,10 +78,34 @@ document.getElementById('save-settings').addEventListener('click', () => {
 document.getElementById('start-raffle').addEventListener('click', () => {
     showRaffle();
     if (interval) clearInterval(interval);
+    if (countdownInterval) clearInterval(countdownInterval);
     seen.clear();
     fetchRedemptions(settings.streamer, settings.token);
-    interval = setInterval(() => fetchRedemptions(settings.streamer, settings.token), 3000);
+    interval = setInterval(() => fetchRedemptions(settings.streamer, settings.token), 4000);
+
+    if (settings.timer > 0) {
+        let remainingTime = settings.timer * 60;
+        updateTimerDisplay(remainingTime);
+        document.getElementById('timer-display').style.display = 'block';
+        countdownInterval = setInterval(() => {
+            remainingTime--;
+            updateTimerDisplay(remainingTime);
+            if (remainingTime <= 0) {
+                clearInterval(countdownInterval);
+                clearInterval(interval);
+                document.getElementById('timer-time').textContent = '00:00';
+            }
+        }, 1000);
+    } else {
+        document.getElementById('timer-display').style.display = 'none';
+    }
 });
+
+function updateTimerDisplay(time) {
+    const min = Math.floor(time / 60);
+    const sec = time % 60;
+    document.getElementById('timer-time').textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+}
 
 function showRaffle() {
     document.getElementById('main').style.display = 'none';
@@ -102,6 +129,8 @@ document.getElementById('reset').addEventListener('click', () => {
         document.getElementById('main').style.display = 'block';
         document.getElementById('raffle').style.display = 'none';
         if (interval) clearInterval(interval);
+        if (countdownInterval) clearInterval(countdownInterval);
+        document.getElementById('timer-display').style.display = 'none';
         seen.clear();
     }
 });
@@ -292,6 +321,7 @@ function selectWinnerIndex() {
 document.getElementById('spin').addEventListener('click', () => {
     if (spinning || participants.length === 0) return;
     spinning = true;
+    if (interval) clearInterval(interval);
     document.getElementById('eliminated').style.display = 'none';
     document.getElementById('winner').style.display = 'none';
 
