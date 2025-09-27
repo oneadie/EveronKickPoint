@@ -234,8 +234,7 @@ table {
     width: 100%;
     border-collapse: collapse;
     background: #2a1a3d;
-    box-shadow: 0 0 20px rgba(155, 89, 182, 0.5);
-    border-radius: 8px;
+    border-radius: 15px;
     overflow: hidden;
     animation: tableGlow 2s infinite alternate;
 }
