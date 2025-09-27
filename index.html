@@ -20,6 +20,7 @@
         </div>
         <div class="container">
             <div class="table-container">
+                <div id="timer-display" style="display: none;">Оставшееся время: <span id="timer-time"></span></div>
                 <div id="participant-count">Участников: 0 (Всего записей: 0)</div>
                 <div class="table-scroll">
                     <table id="table">
@@ -51,6 +52,8 @@
             <input type="text" id="streamer"><br>
             <label for="token">Auth Token (Bearer):</label><br>
             <input type="password" id="token"><br>
+            <label for="timer-minutes">Таймер (минуты):</label><br>
+            <input type="number" id="timer-minutes" min="1"><br>
             <button id="save-settings">Сохранить</button>
             <button id="close-settings">Закрыть</button>
         </div>
@@ -72,5 +75,4 @@
     <img src="icon.png" id="icon" style="display: none;">
     <script src="script.js"></script>
 </body>
-
 </html>
