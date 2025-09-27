@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Розыгрыш на Kick.com</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main">
+        <div class="button-container">
+            <button id="settings-btn">Настройки</button>
+            <button id="start-raffle" disabled>Начать розыгрыш</button>
+        </div>
+    </div>
+    <div id="raffle" style="display: none;">
+        <div class="controls">
+            <button id="reset">Сбросить</button>
+            <button id="wheel-settings">Настройки колеса</button>
+            <button id="spin">Крутить</button>
+        </div>
+        <div class="container">
+            <div class="table-container">
+                <div id="participant-count">Участников: 0 (Всего записей: 0)</div>
+                <div class="table-scroll">
+                    <table id="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Имя</th>
+                                <th>Сообщение</th>
+                                <th>Количество</th>
+                                <th>Удалить</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="wheel-container">
+                <canvas id="wheel" width="600" height="600"></canvas>
+            </div>
+        </div>
+        <div class="result-container">
+            <div id="winner" style="display: none;">Победитель: <span id="winner-name"></span></div>
+            <div id="eliminated" style="display: none;">Выбыл: <span id="eliminated-name"></span></div>
+        </div>
+    </div>
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <label for="streamer">Имя стримера:</label><br>
+            <input type="text" id="streamer"><br>
+            <label for="token">Auth Token (Bearer):</label><br>
+            <input type="text" id="token"><br>
+            <button id="save-settings">Сохранить</button>
+            <button id="close-settings">Закрыть</button>
+        </div>
+    </div>
+    <div id="wheel-modal" class="modal">
+        <div class="modal-content">
+            <label for="mode">Режим:</label><br>
+            <select id="mode">
+                <option value="direct">Выбрать сразу</option>
+                <option value="eliminate">Исключать по одному</option>
+            </select><br>
+            <label for="speed">Скорость (0.1-10):</label><br>
+            <input type="range" id="speed" min="0.1" max="10" step="0.1" value="5">
+            <span id="speed-value">5</span><br>
+            <button id="save-wheel">Сохранить</button>
+            <button id="close-wheel">Закрыть</button>
+        </div>
+    </div>
+    <img src="icon.png" id="icon" style="display: none;">
+    <script src="script.js"></script>
+</body>
+</html>
