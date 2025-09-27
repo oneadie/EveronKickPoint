@@ -322,6 +322,8 @@ document.getElementById('spin').addEventListener('click', () => {
     if (spinning || participants.length === 0) return;
     spinning = true;
     if (interval) clearInterval(interval);
+    if (countdownInterval) clearInterval(countdownInterval); // Stop the timer
+    document.getElementById('timer-display').style.display = 'none'; // Hide timer display
     document.getElementById('eliminated').style.display = 'none';
     document.getElementById('winner').style.display = 'none';
 
