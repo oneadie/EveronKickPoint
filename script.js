@@ -81,7 +81,7 @@ document.getElementById('start-raffle').addEventListener('click', () => {
     if (countdownInterval) clearInterval(countdownInterval);
     seen.clear();
     fetchRedemptions(settings.streamer, settings.token);
-    interval = setInterval(() => fetchRedemptions(settings.streamer, settings.token), 4000);
+    interval = setInterval(() => fetchRedemptions(settings.streamer, settings.token), 10000);
 
     if (settings.timer > 0) {
         let remainingTime = settings.timer * 60;
@@ -388,3 +388,4 @@ document.getElementById('spin').addEventListener('click', () => {
     };
     anim();
 });
+
